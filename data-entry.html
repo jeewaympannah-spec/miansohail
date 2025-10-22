@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goods Data Entry</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f5f5f5; }
+    form { background: white; display: inline-block; padding: 20px; border-radius: 10px; margin-top: 50px; }
+    input, textarea { display: block; width: 300px; margin: 10px auto; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #2d89ef; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1b5dbf; }
+  </style>
+</head>
+<body>
+  <h2>Goods Entry Form</h2>
+  <form id="entryForm">
+    <input type="text" id="name" placeholder="Customer Name" required />
+    <input type="text" id="goods" placeholder="Goods Description" required />
+    <input type="number" id="quantity" placeholder="Quantity" required />
+    <textarea id="notes" placeholder="Notes (optional)"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxqcZRiU2eGn12DCGZKxTu9_T3bpKMeJSvKAPHU6mkqKzbWhl9kqaXCWxcIALiGyoRVng/exec"; //
+
+    document.getElementById("entryForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById("name").value,
+        goods: document.getElementById("goods").value,
+        quantity: document.getElementById("quantity").value,
+        notes: document.getElementById("notes").value
+      };
+
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        alert("✅ Data saved successfully to Google Sheet!");
+        document.getElementById("entryForm").reset();
+      } else {
+        alert("❌ Error saving data. Try again.");
+      }
+    });
+  </script>
+</body>
+</html>
