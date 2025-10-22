@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Goods Records</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; text-align: center; margin: 0; }
+    h2 { background-color: #2d89ef; color: white; padding: 15px; margin: 0; }
+    #table_div { margin: 30px auto; width: 90%; max-width: 900px; }
+  </style>
+</head>
+<body>
+  <h2>Goods Transport Records</h2>
+  <div id="table_div">Loading data from Google Sheet...</div>
+
+  <script type="text/javascript">
+    google.charts.load('current', { packages: ['table'] });
+    google.charts.setOnLoadCallback(drawTable);
+
+    function drawTable() {
+      const query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/1RAAHdSozZwAQhwY_rC2I1kluMJBbsISOroPH_x3SFv8/gviz/tq?sheet=Sheet1'
+      );
+
+      query.send(function(response) {
+        if (response.isError()) {
+          document.getElementById('table_div').innerHTML =
+            '❌ Error loading data: ' + response.getMessage();
+          return;
+        }
+
+        const data = response.getDataTable();
+        const table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+      });
+    }
+  </script>
+</body>
+</html>
