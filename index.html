@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEWAY M PANNAH GOODS TRANSPORT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(1, 66, 37, 0.2);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(1, 66, 37, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #014225 0%, #016837 100%);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '☪';
+            position: absolute;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.1);
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header::after {
+            content: '★';
+            position: absolute;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            right: 15%;
+            top: 30%;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            background: rgba(1, 66, 37, 0.9);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            flex-wrap: wrap;
+        }
+
+        .nav button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #016837 0%, #014225 100%);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .nav button:hover {
+            background: linear-gradient(135deg, #01844a 0%, #016837 100%);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav button.active {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: #014225;
+            border-color: #014225;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(1, 66, 37, 0.3);
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #014225;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(1, 66, 37, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #014225;
+            box-shadow: 0 0 0 3px rgba(1, 66, 37, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #014225 0%, #016837 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #016837 0%, #01844a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #9b2c2c 0%, #742a2a 100%);
+        }
+
+        .transaction-list {
+            margin-top: 2rem;
+        }
+
+        .transaction-item {
+            background: rgba(1, 66, 37, 0.05);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #014225;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .transaction-item:hover {
+            background: rgba(1, 66, 37, 0.1);
+            transform: translateX(5px);
+        }
+
+        .transaction-item.expense {
+            border-left-color: #c53030;
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-amount {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .transaction-amount.income {
+            color: #014225;
+        }
+
+        .transaction-amount.expense {
+            color: #c53030;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #014225 0%, #016837 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-card::before {
+            content: '☪';
+            position: absolute;
+            font-size: 6rem;
+            color: rgba(255, 255, 255, 0.1);
+            right: -1rem;
+            bottom: -1rem;
+        }
+
+        .summary-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .summary-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-content {
+            line-height: 1.8;
+            color: #2d3748;
+        }
+
+        .about-content h2 {
+            color: #014225;
+            margin: 1.5rem 0 1rem;
+            border-bottom: 3px solid rgba(1, 66, 37, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(1, 66, 37, 0.1) 0%, rgba(1, 104, 55, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid rgba(1, 66, 37, 0.2);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(1, 66, 37, 0.15) 0%, rgba(1, 104, 55, 0.15) 100%);
+            border-color: #014225;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card h3 {
+            color: #014225;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .service-card p {
+            color: #2d3748;
+        }
+
+        .delete-btn {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #9b2c2c 0%, #742a2a 100%);
+            transform: scale(1.05);
+        }
+
+        .pakistan-accent {
+            display: inline-block;
+            color: #014225;
+            font-weight: bold;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #014225 0%, #016837 100%);
+            margin-top: 3rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '☪';
+            position: absolute;
+            font-size: 12rem;
+            color: rgba(255, 255, 255, 0.05);
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        footer::after {
+            content: '★';
+            position: absolute;
+            font-size: 6rem;
+            color: rgba(255, 255, 255, 0.05);
+            left: 12%;
+            top: 20%;
+        }
+
+        footer h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.95);
+            position: relative;
+            z-index: 1;
+        }
+
+        footer strong {
+            color: #ffffff;
+        }
+
+        footer .divider {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav {
+                flex-direction: column;
+            }
+            
+            .nav button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>JEWAY M PANNAH GOODS TRANSPORT</h1>
+        <p>Your Trusted Partner in Goods Transportation</p>
+    </div>
+
+    <div class="nav">
+        <button onclick="showSection('home')" class="active">Home</button>
+        <button onclick="showSection('income')">Add Income</button>
+        <button onclick="showSection('expense')">Add Expense</button>
+        <button onclick="showSection('records')">View Records</button>
+        <button onclick="showSection('about')">About Us</button>
+    </div>
+
+    <div class="container">
+        <!-- Home Section -->
+        <div id="home" class="section active">
+            <h2 style="color: #014225; margin-bottom: 1.5rem; border-bottom: 3px solid rgba(1, 66, 37, 0.3); padding-bottom: 0.5rem;">Financial Summary</h2>
+            <div class="summary">
+                <div class="summary-card">
+                    <h3>Total Income</h3>
+                    <p id="totalIncome">PKR 0</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Expenses</h3>
+                    <p id="totalExpense">PKR 0</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Net Profit</h3>
+                    <p id="netProfit">PKR 0</p>
+                </div>
+            </div>
+
+            <h2 style="color: #014225; margin: 2rem 0 1rem; border-bottom: 3px solid rgba(1, 66, 37, 0.3); padding-bottom: 0.5rem;">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>🚚 Local Transport</h3>
+                    <p>Fast and reliable local goods transportation services</p>
+                </div>
+                <div class="service-card">
+                    <h3>🌍 Long Distance</h3>
+                    <p>Interstate and long-distance cargo delivery</p>
+                </div>
+                <div class="service-card">
+                    <h3>📦 Warehousing</h3>
+                    <p>Secure storage and inventory management</p>
+                </div>
+                <div class="service-card">
+                    <h3>⏰ 24/7 Service</h3>
+                    <p>Round-the-clock support and tracking</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income Section -->
+        <div id="income" class="section">
+            <h2 style="color: #014225; margin-bottom: 1.5rem; border-bottom: 3px solid rgba(1, 66, 37, 0.3); padding-bottom: 0.5rem;">Add Income Entry</h2>
+            <form onsubmit="addIncome(event)">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="incomeDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="incomeDesc" placeholder="e.g., Transport Service - Lahore to Karachi" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount (PKR)</label>
+                    <input type="number" id="incomeAmount" placeholder="0.00" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="incomePayment" required>
+                        <option value="">Select payment method</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Online">Online Payment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="incomeNotes" rows="3" placeholder="Additional details..."></textarea>
+                </div>
+                <button type="submit" class="btn">Add Income</button>
+            </form>
+        </div>
+
+        <!-- Expense Section -->
+        <div id="expense" class="section">
+            <h2 style="color: #014225; margin-bottom: 1.5rem; border-bottom: 3px solid rgba(1, 66, 37, 0.3); padding-bottom: 0.5rem;">Add Expense Entry</h2>
+            <form onsubmit="addExpense(event)">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="expenseDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Vehicle No</label>
+                    <input type="text" id="expenseVehicle" placeholder="e.g., LES-1234" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="expenseDesc" placeholder="e.g., Diesel purchase" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount (PKR)</label>
+                    <input type="number" id="expenseAmount" placeholder="0.00" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select id="expensePayment" required>
+                        <option value="">Select payment method</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Cheque">Cheque</option>
+                        <option value="Online">Online Payment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="expenseNotes" rows="3" placeholder="Additional details..."></textarea>
+                </div>
+                <button type="submit" class="btn">Add Expense</button>
+            </form>
+        </div>
+
+        <!-- Records Section -->
+        <div id="records" class="section">
+            <h2 style="color: #014225; margin-bottom: 1.5rem; border-bottom: 3px solid rgba(1, 66, 37, 0.3); padding-bottom: 0.5rem;">Transaction Records</h2>
+            <div class="summary">
+                <div class="summary-card">
+                    <h3>Total Income</h3>
+                    <p id="recordsIncome">PKR 0</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Expenses</h3>
+                    <p id="recordsExpense">PKR 0</p>
+                </div>
+                <div class="summary-card">
+                    <h3>Net Profit</h3>
+                    <p id="recordsProfit">PKR 0</p>
+                </div>
+            </div>
+            <div class="transaction-list" id="transactionList"></div>
+        </div>
+
+        <!-- About Section -->
+        <div id="about" class="section">
+            <div class="about-content">
+                <h2>About JEWAY M PANNAH GOODS TRANSPORT</h2>
+                <p>Welcome to <span class="pakistan-accent">JEWAY M PANNAH GOODS TRANSPORT</span>, your reliable partner in the transportation industry. We specialize in providing comprehensive goods transport services across Pakistan.</p>
+                
+                <h2>Our Mission</h2>
+                <p>To deliver exceptional transportation services with a commitment to safety, reliability, and customer satisfaction. We strive to be the most trusted name in goods transportation throughout Pakistan.</p>
+                
+                <h2>Why Choose Us?</h2>
+                <p>With years of experience in the industry, we understand the importance of timely and secure delivery of your goods. Our modern fleet of vehicles and trained professionals ensure your cargo reaches its destination safely and on time.</p>
+                
+                <h2>Contact Information</h2>
+                <p>For bookings and inquiries, please reach out to us. We're available 24/7 to serve your transportation needs across Pakistan.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h3>📍 Contact Us</h3>
+            <div style="line-height: 1.8;">
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;">
+                    <strong>Address:</strong> Opposite Sundar Industrial Estate Gate No 1, Raiwind Road, Lahore
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;">
+                    <strong>Phone:</strong> +92 300 6926984 | +92 320 3946084
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 1.1rem;">
+                    <strong>Email:</strong> Jeewaympannah@gmail.com
+                </p>
+            </div>
+            <div class="divider">
+                <p>&copy; 2025 JEWAY M PANNAH GOODS TRANSPORT. All Rights Reserved.</p>
+                <p style="margin-top: 0.5rem;">Proudly Serving Pakistan 🇵🇰</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let transactions = [];
+
+        // Set today's date as default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('incomeDate').value = today;
+            document.getElementById('expenseDate').value = today;
+            loadTransactions();
+            updateSummary();
+        });
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            const buttons = document.querySelectorAll('.nav button');
+            
+            sections.forEach(section => section.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function addIncome(event) {
+            event.preventDefault();
+            
+            const transaction = {
+                id: Date.now(),
+                type: 'income',
+                date: document.getElementById('incomeDate').value,
+                description: document.getElementById('incomeDesc').value,
+                amount: parseFloat(document.getElementById('incomeAmount').value),
+                payment: document.getElementById('incomePayment').value,
+                notes: document.getElementById('incomeNotes').value
+            };
+            
+            transactions.push(transaction);
+            saveTransactions();
+            updateSummary();
+            event.target.reset();
+            document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0];
+            alert('Income added successfully!');
+        }
+
+        function addExpense(event) {
+            event.preventDefault();
+            
+            const transaction = {
+                id: Date.now(),
+                type: 'expense',
+                date: document.getElementById('expenseDate').value,
+                vehicle: document.getElementById('expenseVehicle').value,
+                description: document.getElementById('expenseDesc').value,
+                amount: parseFloat(document.getElementById('expenseAmount').value),
+                payment: document.getElementById('expensePayment').value,
+                notes: document.getElementById('expenseNotes').value
+            };
+            
+            transactions.push(transaction);
+            saveTransactions();
+            updateSummary();
+            event.target.reset();
+            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+            alert('Expense added successfully!');
+        }
+
+        function deleteTransaction(id) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                transactions = transactions.filter(t => t.id !== id);
+                saveTransactions();
+                updateSummary();
+                displayTransactions();
+            }
+        }
+
+        function saveTransactions() {
+            const data = JSON.stringify(transactions);
+            window.transactionsData = data;
+        }
+
+        function loadTransactions() {
+            if (window.transactionsData) {
+                transactions = JSON.parse(window.transactionsData);
+            }
+            displayTransactions();
+        }
+
+        function updateSummary() {
+            const totalIncome = transactions
+                .filter(t => t.type === 'income')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const totalExpense = transactions
+                .filter(t => t.type === 'expense')
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            const netProfit = totalIncome - totalExpense;
+            
+            const formatter = new Intl.NumberFormat('en-PK', {
+                style: 'currency',
+                currency: 'PKR',
+                minimumFractionDigits: 2
+            });
+            
+            document.getElementById('totalIncome').textContent = formatter.format(totalIncome);
+            document.getElementById('totalExpense').textContent = formatter.format(totalExpense);
+            document.getElementById('netProfit').textContent = formatter.format(netProfit);
+            
+            document.getElementById('recordsIncome').textContent = formatter.format(totalIncome);
+            document.getElementById('recordsExpense').textContent = formatter.format(totalExpense);
+            document.getElementById('recordsProfit').textContent = formatter.format(netProfit);
+        }
+
+        function displayTransactions() {
+            const list = document.getElementById('transactionList');
+            
+            if (transactions.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #718096; padding: 2rem;">No transactions recorded yet.</p>';
+                return;
+            }
+            
+            const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            list.innerHTML = sorted.map(t => `
+                <div class="transaction-item ${t.type}">
+                    <div class="transaction-details">
+                        <div style="font-weight: bold; color: #014225;">${t.description}</div>
+                        <div style="color: #718096; font-size: 0.9rem; margin-top: 0.25rem;">
+                            ${new Date(t.date).toLocaleDateString('en-PK', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                            })} • ${t.payment}
+                            ${t.vehicle ? ` • Vehicle: ${t.vehicle}` : ''}
+                        </div>
+                        ${t.notes ? `<div style="color: #a0aec0; font-size: 0.85rem; margin-top: 0.25rem;">${t.notes}</div>` : ''}
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="transaction-amount ${t.type}">
+                            ${t.type === 'income' ? '+' : '-'} PKR ${t.amount.toFixed(2)}
+                        </div>
+                        <button class="delete-btn" onclick="deleteTransaction(${t.id})" style="margin-top: 0.5rem;">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
